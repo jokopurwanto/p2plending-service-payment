@@ -14,4 +14,12 @@ public class PaymentApplication {
 		SpringApplication.run(PaymentApplication.class, args);
 	}
 
+	@Bean
+	public RestTemplate restTemplate(RestTemplateBuilder builder){
+		return builder
+				.setConnectTimeout(Duration.ofMillis(30000))
+				.setReadTimeout(Duration.ofMillis(30000))
+				.build();
+	}
+
 }

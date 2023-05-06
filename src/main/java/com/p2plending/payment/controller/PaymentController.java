@@ -2,6 +2,7 @@ package com.p2plending.payment.controller;
 
 import com.p2plending.payment.dto.PaymentBillCheckDto;
 import com.p2plending.payment.dto.PaymentReqBorrowerDto;
+import com.p2plending.payment.dto.PaymentReqLenderDto;
 import com.p2plending.payment.handler.RespHandler;
 import com.p2plending.payment.service.imple.PaymentService;
 import jakarta.validation.Valid;
@@ -20,11 +21,20 @@ public class PaymentController {
     PaymentService paymentService;
 
     @PostMapping("/payment-borrower")
-    public ResponseEntity<Object> createCatalogDetails(@RequestBody @Valid PaymentReqBorrowerDto paymentReqBorrowerDto) throws ParseException {
+    public ResponseEntity<Object> createPaymentBorrower(@RequestBody @Valid PaymentReqBorrowerDto paymentReqBorrowerDto) throws ParseException {
         if(paymentService.checkPinBorrower(paymentReqBorrowerDto).equals(true)){
             return RespHandler.responseBuilder("sukses, data payment telah berhasil di-simpan", HttpStatus.OK, paymentService.createPaymentSuccessBorrower(paymentReqBorrowerDto));
         }else {
-            return RespHandler.responseBuilder("Payment Gagal",HttpStatus.BAD_REQUEST, paymentService.createPaymentFailed(paymentReqBorrowerDto));
+            return RespHandler.responseBuilder("Payment Gagal",HttpStatus.BAD_REQUEST, paymentService.createPaymentFailedBorrower(paymentReqBorrowerDto));
+        }
+    }
+
+    @PostMapping("/payment-lender")
+    public ResponseEntity<Object> createPaymentLender(@RequestBody @Valid PaymentReqLenderDto paymentReqLenderDto) throws ParseException {
+        if(paymentService.checkPinLender(paymentReqLenderDto).equals(true)){
+            return RespHandler.responseBuilder("sukses, data payment telah berhasil di-simpan", HttpStatus.OK, paymentService.createPaymentSuccessLender(paymentReqLenderDto));
+        }else {
+            return RespHandler.responseBuilder("Payment Gagal",HttpStatus.BAD_REQUEST, paymentService.createPaymentFailedLender(paymentReqLenderDto));
         }
     }
 

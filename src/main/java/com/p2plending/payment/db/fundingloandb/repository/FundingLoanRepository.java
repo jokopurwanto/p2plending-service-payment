@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface FundingLoanRepository extends JpaRepository<FundingLoanModel, Integer> {
 
     FundingLoanModel[] findByIdBorrowerAndIdProduct(Integer idBorrower, Integer idProduct);
+
+    FundingLoanModel findByIdLenderAndIdProduct(Integer idLender, Integer idProduct);
 }

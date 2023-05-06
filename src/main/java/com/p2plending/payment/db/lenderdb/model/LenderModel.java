@@ -39,4 +39,7 @@ public class LenderModel {
     @Column(name="lender_type")
     private String lenderType;
 
+    @Column(name="pin")
+    private Integer pin;
+
 }

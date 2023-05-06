@@ -16,9 +16,6 @@ public class BorrowerModel {
     @Column(name ="id")
     private Integer id;
 
-    @Column(name = "id_loan_req")
-    private Integer idLoanReq;
-
     @Column(name = "id_user")
     private Integer idUser;
 
