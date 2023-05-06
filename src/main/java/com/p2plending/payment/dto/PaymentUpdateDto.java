@@ -28,6 +28,5 @@ public class PaymentUpdateDto {
     @NotNull(message = "Invalid date: date is NULL")
     private Date date;
 
-    @NotNull(message = "Invalid status: status is NULL")
     private boolean status;
 }

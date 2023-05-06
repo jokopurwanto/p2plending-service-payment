@@ -20,11 +20,10 @@ public interface IPaymentService {
     public PaymentModel createPaymentSuccessLender(PaymentReqLenderDto paymentReqLenderDto) throws ParseException;
     public Map<String, Object> createPaymentFailedBorrower(PaymentReqBorrowerDto paymentReqBorrowerDto) throws ParseException;
     public Map<String, Object> createPaymentFailedLender(PaymentReqLenderDto paymentReqLenderDto) throws ParseException;
-    public PaymentModel updatePayment(PaymentUpdateDto paymentUpdateDto, Integer id) throws ParseException;
+    public PaymentModel updatePayment(PaymentUpdateDto paymentUpdateDto, Integer id);
     public Map<String, Object> billCheck(Integer idBorrower, Integer idProduct) throws ParseException;
     public Map<String, Object> deletePayment(Integer id);
     public PaymentModel getPayment(Integer id);
     public List<PaymentModel> getAllPayment();
-    public List<BorrowerModel> getAllUser();
-    public List<LenderModel> getAllCatalog();
+
 }
