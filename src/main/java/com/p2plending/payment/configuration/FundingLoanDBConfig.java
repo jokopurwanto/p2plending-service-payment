@@ -18,29 +18,29 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "tertiaryEntityManagerFactory",
-        transactionManagerRef = "tertiaryTransactionManager",
-        basePackages = { "com.travel.payment.db.catalogdb.repository" }
+        entityManagerFactoryRef = "quaternaryEntityManagerFactory",
+        transactionManagerRef = "quaternaryTransactionManager",
+        basePackages = { "com.p2plending.payment.db.fundingloandb.repository" }
 )
-public class CatalogDBConfig {
-    @Bean(name="tertiaryDataSource")
-    @ConfigurationProperties(prefix="spring.dbcatalog.datasource")
-    public DataSource tertiaryDataSource() {
+public class FundingLoanDBConfig {
+    @Bean(name="quaternaryDataSource")
+    @ConfigurationProperties(prefix="spring.dbfundingloan.datasource")
+    public DataSource quaternaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "tertiaryEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean tertiaryEntityManagerFactory(
+    @Bean(name = "quaternaryEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean quaternaryEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("tertiaryDataSource") DataSource tertiaryDataSource) {
+            @Qualifier("quaternaryDataSource") DataSource quaternaryDataSource) {
         return builder
-                .dataSource(tertiaryDataSource)
-                .packages("com.travel.payment.db.catalogdb.model")
+                .dataSource(quaternaryDataSource)
+                .packages("com.p2plending.payment.db.fundingloandb.model")
                 .build();
     }
 
-    @Bean(name = "tertiaryTransactionManager")
-    public PlatformTransactionManager tertiaryTransactionManager(@Qualifier("tertiaryEntityManagerFactory") EntityManagerFactory tertiaryEntityManagerFactory) {
-        return new JpaTransactionManager(tertiaryEntityManagerFactory);
+    @Bean(name = "quaternaryTransactionManager")
+    public PlatformTransactionManager quaternaryTransactionManager(@Qualifier("quaternaryEntityManagerFactory") EntityManagerFactory quaternaryEntityManagerFactory) {
+        return new JpaTransactionManager(quaternaryEntityManagerFactory);
     }
 }

@@ -32,7 +32,7 @@ public class BorrowerModel {
     private String email;
 
     @Column(name = "balance")
-    private String balance;
+    private Integer balance;
 
     @Column(name = "pin")
     private Integer pin;

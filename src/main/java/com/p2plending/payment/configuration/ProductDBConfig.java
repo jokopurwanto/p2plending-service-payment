@@ -7,7 +7,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,34 +18,29 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "primaryEntityManagerFactory",
-        transactionManagerRef = "primaryTransactionManager",
-        basePackages = { "com.p2plending.payment.db.paymentdb.repository" }
+        entityManagerFactoryRef = "quinaryEntityManagerFactory",
+        transactionManagerRef = "quinaryTransactionManager",
+        basePackages = { "com.p2plending.payment.db.productdb.repository" }
 )
-public class PaymentDBConfig {
-
-    @Primary
-    @Bean(name="primaryDataSource")
-    @ConfigurationProperties(prefix="spring.dbpayment.datasource")
-    public DataSource primaryDataSource() {
+public class ProductDBConfig {
+    @Bean(name="quinaryDataSource")
+    @ConfigurationProperties(prefix="spring.dbproduct.datasource")
+    public DataSource quinaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Primary
-    @Bean(name = "primaryEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(
+    @Bean(name = "quinaryEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean quinaryEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("primaryDataSource") DataSource primaryDataSource) {
+            @Qualifier("quinaryDataSource") DataSource quinaryDataSource) {
         return builder
-                .dataSource(primaryDataSource)
-                .packages("com.p2plending.payment.db.paymentdb.model")
+                .dataSource(quinaryDataSource)
+                .packages("com.p2plending.payment.db.productdb.model")
                 .build();
     }
 
-    @Primary
-    @Bean(name = "primaryTransactionManager")
-    public PlatformTransactionManager primaryTransactionManager(
-            @Qualifier("primaryEntityManagerFactory") EntityManagerFactory primaryEntityManagerFactory) {
-        return new JpaTransactionManager(primaryEntityManagerFactory);
+    @Bean(name = "quinaryTransactionManager")
+    public PlatformTransactionManager quinaryTransactionManager(@Qualifier("quinaryEntityManagerFactory") EntityManagerFactory quinaryEntityManagerFactory) {
+        return new JpaTransactionManager(quinaryEntityManagerFactory);
     }
 }

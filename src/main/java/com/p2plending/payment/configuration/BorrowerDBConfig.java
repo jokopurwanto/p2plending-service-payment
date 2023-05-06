@@ -7,7 +7,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -19,34 +18,31 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "primaryEntityManagerFactory",
-        transactionManagerRef = "primaryTransactionManager",
-        basePackages = { "com.p2plending.payment.db.paymentdb.repository" }
+        entityManagerFactoryRef = "secondaryEntityManagerFactory",
+        transactionManagerRef = "secondaryTransactionManager",
+        basePackages = { "com.p2plending.payment.db.borrowerdb.repository" }
 )
-public class PaymentDBConfig {
+public class BorrowerDBConfig {
 
-    @Primary
-    @Bean(name="primaryDataSource")
-    @ConfigurationProperties(prefix="spring.dbpayment.datasource")
-    public DataSource primaryDataSource() {
+    @Bean(name="secondaryDataSource")
+    @ConfigurationProperties(prefix="spring.dbborrower.datasource")
+    public DataSource secondaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Primary
-    @Bean(name = "primaryEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(
+    @Bean(name = "secondaryEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean secondaryEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("primaryDataSource") DataSource primaryDataSource) {
+            @Qualifier("secondaryDataSource") DataSource secondaryDataSource) {
         return builder
-                .dataSource(primaryDataSource)
-                .packages("com.p2plending.payment.db.paymentdb.model")
+                .dataSource(secondaryDataSource)
+                .packages("com.p2plending.payment.db.borrowerdb.model")
                 .build();
     }
 
-    @Primary
-    @Bean(name = "primaryTransactionManager")
-    public PlatformTransactionManager primaryTransactionManager(
-            @Qualifier("primaryEntityManagerFactory") EntityManagerFactory primaryEntityManagerFactory) {
-        return new JpaTransactionManager(primaryEntityManagerFactory);
+    @Bean(name = "secondaryTransactionManager")
+    public PlatformTransactionManager secondaryTransactionManager(@Qualifier("secondaryEntityManagerFactory") EntityManagerFactory secondaryEntityManagerFactory) {
+        return new JpaTransactionManager(secondaryEntityManagerFactory);
     }
+
 }

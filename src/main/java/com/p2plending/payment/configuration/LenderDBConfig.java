@@ -18,31 +18,29 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "secondaryEntityManagerFactory",
-        transactionManagerRef = "secondaryTransactionManager",
-        basePackages = { "com.travel.payment.db.userdb.repository" }
+        entityManagerFactoryRef = "tertiaryEntityManagerFactory",
+        transactionManagerRef = "tertiaryTransactionManager",
+        basePackages = { "com.p2plending.payment.db.lenderdb.repository" }
 )
-public class UserDBConfig {
-
-    @Bean(name="secondaryDataSource")
-    @ConfigurationProperties(prefix="spring.dbuser.datasource")
-    public DataSource secondaryDataSource() {
+public class LenderDBConfig {
+    @Bean(name="tertiaryDataSource")
+    @ConfigurationProperties(prefix="spring.dblender.datasource")
+    public DataSource tertiaryDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "secondaryEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean secondaryEntityManagerFactory(
+    @Bean(name = "tertiaryEntityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean tertiaryEntityManagerFactory(
             EntityManagerFactoryBuilder builder,
-            @Qualifier("secondaryDataSource") DataSource secondaryDataSource) {
+            @Qualifier("tertiaryDataSource") DataSource tertiaryDataSource) {
         return builder
-                .dataSource(secondaryDataSource)
-                .packages("com.travel.payment.db.userdb.model")
+                .dataSource(tertiaryDataSource)
+                .packages("com.p2plending.payment.db.lenderdb.model")
                 .build();
     }
 
-    @Bean(name = "secondaryTransactionManager")
-    public PlatformTransactionManager secondaryTransactionManager(@Qualifier("secondaryEntityManagerFactory") EntityManagerFactory secondaryEntityManagerFactory) {
-        return new JpaTransactionManager(secondaryEntityManagerFactory);
+    @Bean(name = "tertiaryTransactionManager")
+    public PlatformTransactionManager tertiaryTransactionManager(@Qualifier("tertiaryEntityManagerFactory") EntityManagerFactory tertiaryEntityManagerFactory) {
+        return new JpaTransactionManager(tertiaryEntityManagerFactory);
     }
-
 }

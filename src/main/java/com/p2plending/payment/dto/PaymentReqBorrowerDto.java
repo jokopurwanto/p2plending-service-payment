@@ -15,22 +15,18 @@ import java.sql.Date;
 @Builder
 public class PaymentReqBorrowerDto {
 
-    @NotNull(message = "Invalid iduser: iduser is NULL")
     private Integer idOrder;
 
-    @NotNull(message = "Invalid iduser: iduser is NULL")
+    @NotNull(message = "Invalid idBorrower: idBorrower is NULL")
     private Integer idBorrower;
 
-    @NotNull(message = "Invalid iduser: iduser is NULL")
+    @NotNull(message = "Invalid idProduct: idProduct is NULL")
     private Integer idProduct;
 
-    @NotNull(message = "Invalid destination: destination is NULL")
-    private String title;
+    @NotNull(message = "Invalid totalPayment: totalPayment is NULL")
+    private String totalPayment;
 
-    @NotNull(message = "Invalid Start date: Start date is NULL")
-    private Date totalPayment;
-
-    @NotNull(message = "Invalid End date: End date is NULL")
-    private Date pin;
+    @NotNull(message = "Invalid pin: pin is NULL")
+    private Integer pin;
 
 }
